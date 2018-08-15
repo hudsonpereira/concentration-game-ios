@@ -18,8 +18,6 @@ class Concentration {
             let card = Card()
             cards += [card, card]
         }
-        
-        [Int]().shuf
     }
     
     func pickCard(index: Int) {
