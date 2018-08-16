@@ -11,7 +11,9 @@ import Foundation
 class Concentration {
     var cards = [Card]()
     
-    var indexOfOneAndOnlyFaceUpCard: Int?
+    var indexOfOneAndOnlyFaceUpCard: Int? {
+        return cards.indices.filter { cards[$0].isFaceUp }.oneAndOnly
+    }
     
     init(numberOfCards: Int) {
         for _ in 0..<numberOfCards {
@@ -24,15 +26,12 @@ class Concentration {
         if !cards[index].isMatched {
             if let matchingIndex = indexOfOneAndOnlyFaceUpCard, matchingIndex != index {
                 // check if cards match
-                if cards[index].identifier == cards[matchingIndex].identifier {
+                if cards[index] == cards[matchingIndex] {
                     cards[matchingIndex].isMatched = true
                     cards[index].isMatched = true
-                    
-                    
                 }
                 
                 cards[index].isFaceUp = true
-                indexOfOneAndOnlyFaceUpCard = nil
                 
             } else {
                 // either no cards or 2 cards are faced up
@@ -41,8 +40,13 @@ class Concentration {
                 }
                 
                 cards[index].isFaceUp = true
-                indexOfOneAndOnlyFaceUpCard = index
             }
         }
+    }
+}
+
+extension Collection {
+    var oneAndOnly: Element? {
+        return count == 1 ? first : nil
     }
 }
